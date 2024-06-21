@@ -15,8 +15,5 @@
       "src": "/(.*)",
       "dest": "src/manage.py"
     }
-  ],
-  "env": {
-    "TELEGRAM_BOT_TOKEN": "@telegram_bot_token"
-  }
+  ]
 }
