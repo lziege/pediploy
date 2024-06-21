@@ -4,17 +4,10 @@
     {
       "src": "src/manage.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "src/pedigroup/wsgi.py",
-      "use": "@vercel/python"
     }
   ],
   "routes": [
     { "handle": "filesystem" },
-    {
-      "src": "/.*",
-      "dest": "src/pedigroup/wsgi.py"
-    }
+    { "src": "/.*", "dest": "src/manage.py" }
   ]
 }
