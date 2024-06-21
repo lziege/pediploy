@@ -13,7 +13,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/manage.py"
+      "dest": "src/pedigroup/wsgi.py"
     }
   ]
 }
