@@ -3,10 +3,7 @@
   "builds": [
     {
       "src": "src/manage.py",
-      "use": "@vercel/python",
-      "config": {
-        "distDir": "staticfiles"
-      }
+      "use": "@vercel/python"
     },
     {
       "src": "src/pedigroup/wsgi.py",
@@ -14,9 +11,10 @@
     }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "src/pedigroup/wsgi.py"
-    }
-  ]
+      { "handle": "filesystem" },
+      { "src": "/.*", "dest": "src/manage.py" }
+  ],
+  "env": {
+    "TELEGRAM_BOT_TOKEN": "@telegram_bot_token"
+  }
 }
