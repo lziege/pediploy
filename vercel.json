@@ -22,8 +22,8 @@
       "methods": ["POST"]
     },
     {
-      "src": "/",
-      "dest": "/src/views.py"
+      "src": "/(.*)",
+      "dest": "manage.py"
     }
   ]
 }
