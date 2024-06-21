@@ -2,14 +2,10 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from django.core.asgi import get_asgi_application
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.settings')
-
-application = get_asgi_application()
 
 def main():
     """Run administrative tasks."""
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -18,10 +14,31 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
-    execute_from_command_line(sys.argv)
+    
+    from django.core.wsgi import get_wsgi_application
+    application = get_wsgi_application()
+    from gunicorn.app.base import BaseApplication
 
-def handler(event, context):
-    return application(event, context)
+    class StandaloneApplication(BaseApplication):
+        def __init__(self, app, options=None):
+            self.options = options or {}
+            self.application = app
+            super().__init__()
+
+        def load_config(self):
+            for key, value in self.options.items():
+                if key in self.cfg.settings and value is not None:
+                    self.cfg.set(key, value)
+
+        def load(self):
+            return self.application
+
+    if __name__ == '__main__':
+        options = {
+            'bind': '0.0.0.0:8000',
+            'workers': 3
+        }
+        StandaloneApplication(application, options).run()
 
 if __name__ == '__main__':
     main()
