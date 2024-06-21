@@ -2,13 +2,14 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from django.core.asgi import get_asgi_application
 
-from django.core.handlers.asgi import ASGIHandler
-handler = ASGIHandler()
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.settings')
+
+application = get_asgi_application()
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -19,6 +20,8 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+def handler(event, context):
+    return application(event, context)
 
 if __name__ == '__main__':
     main()
