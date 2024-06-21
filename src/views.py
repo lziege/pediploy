@@ -6,7 +6,7 @@ from telegram import Bot, Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, Application
 import os
 
-from backend.constants import ALL_COMMANDS
+from src.backend.constants import ALL_COMMANDS
 
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
