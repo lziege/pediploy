@@ -20,6 +20,6 @@ from django.urls import path
 from src.views import telegram_webhook
 
 urlpatterns = [
-    path('telegram-webhook/', telegram_webhook, name='telegram-webhook'),
+    path('/telegram-webhook', telegram_webhook, name='telegram-webhook'),
     path('admin/', admin.site.urls),
 ]
