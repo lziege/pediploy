@@ -14,3 +14,5 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.settings')
 
 application = get_wsgi_application()
+
+from src.backend.management.commands.run_telegram_bot import applicationBuilder

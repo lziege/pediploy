@@ -61,6 +61,10 @@ GROUP_SELECTION_FOR_RECORD = 0
 
 manager = GroupOrderManager()
 
+async def post_init(application: Application) -> None:
+    await application.bot.set_my_commands(ALL_COMMANDS)
+
+applicationBuilder = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).post_init(post_init).build()
 
 async def start_order(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.chat.type == Chat.PRIVATE:
@@ -615,19 +619,14 @@ async def show_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(HELP_MESSAGE)
 
 
-async def post_init(application: Application) -> None:
-    await application.bot.set_my_commands(ALL_COMMANDS)
-
-
 def start_bot():
-    application = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).post_init(post_init).build()
-
-    application.add_handler(CommandHandler(START_ORDER_COMMAND.command, start_order))
-    application.add_handler(CallbackQueryHandler(finish_order, pattern=r'^Finalizar pedido\s+\S+'))
-    application.add_handler(CommandHandler(LOAD_CSV_COMMAND.command, start_csv_upload))
-    application.add_handler(MessageHandler(filters.Document.FileExtension("csv"), load_csv))
-    application.add_handler(CommandHandler(HELP_COMMAND.command, show_help))
-    application.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, start_message))
+    global applicationBuilder
+    applicationBuilder.add_handler(CommandHandler(START_ORDER_COMMAND.command, start_order))
+    applicationBuilder.add_handler(CallbackQueryHandler(finish_order, pattern=r'^Finalizar pedido\s+\S+'))
+    applicationBuilder.add_handler(CommandHandler(LOAD_CSV_COMMAND.command, start_csv_upload))
+    applicationBuilder.add_handler(MessageHandler(filters.Document.FileExtension("csv"), load_csv))
+    applicationBuilder.add_handler(CommandHandler(HELP_COMMAND.command, show_help))
+    applicationBuilder.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, start_message))
 
     orders_record_handler = ConversationHandler(
         entry_points=[CommandHandler(SHOW_ORDER_RECORD_COMMAND.command, show_order_record)],
@@ -660,7 +659,7 @@ def start_bot():
         fallbacks=[],
     )
 
-    application.add_handler(individual_order_handler)
-    application.add_handler(orders_record_handler)
+    applicationBuilder.add_handler(individual_order_handler)
+    applicationBuilder.add_handler(orders_record_handler)
 
-    application.run_polling()
+    applicationBuilder.run_polling()
