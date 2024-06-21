@@ -20,6 +20,10 @@
       "src": "/telegram-webhook/",
       "dest": "/src/views.py",
       "methods": ["POST"]
+    },
+    {
+      "src": "/",
+      "dest": "/src/views.py"
     }
   ]
 }
