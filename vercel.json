@@ -4,10 +4,22 @@
     {
       "src": "manage.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "src/wsgi.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "src/settings.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     { "handle": "filesystem" },
-    { "src": "/.*", "dest": "src/wsgi.py" }
+    {
+      "src": "/telegram-webhook/",
+      "dest": "/src/views.py",
+      "methods": ["POST"]
+    }
   ]
 }
