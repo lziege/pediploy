@@ -2,12 +2,12 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/manage.py",
+      "src": "manage.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     { "handle": "filesystem" },
-    { "src": "/.*", "dest": "src/manage.py" }
+    { "src": "/.*", "dest": "manage.py" }
   ]
 }

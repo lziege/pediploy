@@ -2,10 +2,10 @@ from typing import Dict
 
 from django.conf import settings
 
-from backend.constants import *
-from backend.exceptions import WrongHeadersForCsv
-from backend.manager import GroupOrderManager, MessageWithMarkup
-from backend.models import Order, Product
+from src.backend.constants import *
+from src.backend.exceptions import WrongHeadersForCsv
+from src.backend.manager import GroupOrderManager, MessageWithMarkup
+from src.backend.models import Order, Product
 
 import logging
 from telegram import CallbackQuery, Chat, InlineKeyboardButton, InlineKeyboardMarkup, MaybeInaccessibleMessage, Update
@@ -20,7 +20,7 @@ from telegram.ext import (
     Application,
 )
 
-from backend.service import (
+from src.backend.service import (
     create_entities_through_csv,
     register_group_and_user_if_required,
     register_user_order,
@@ -31,7 +31,7 @@ from backend.service import (
 )
 from django.core.management.base import BaseCommand
 
-from backend.utils import format_individual_orders, format_order
+from src.backend.utils import format_individual_orders, format_order
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO

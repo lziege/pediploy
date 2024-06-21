@@ -4,10 +4,10 @@ from typing import List, Tuple, Union, TextIO
 from telegram import User as TelegramUser, Chat
 from django.db import transaction
 
-from backend.constants import HEADERS_FROM_CSV, GROUP_DIDNT_ORDER_YET_MESSAGE, USER_DIDNT_ORDER_YET_MESSAGE
-from backend.exceptions import WrongHeadersForCsv
-from backend.models import Product, Restaurant, Group, User, GroupOrder, Order
-from backend.utils import format_group_orders_with_date
+from src.backend.constants import HEADERS_FROM_CSV, GROUP_DIDNT_ORDER_YET_MESSAGE, USER_DIDNT_ORDER_YET_MESSAGE
+from src.backend.exceptions import WrongHeadersForCsv
+from src.backend.models import Product, Restaurant, Group, User, GroupOrder, Order
+from src.backend.utils import format_group_orders_with_date
 
 
 def create_entities_through_csv(csv_file: Union[TextIO, str], group_id: int) -> Tuple[int, int, int]:

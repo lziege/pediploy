@@ -1,7 +1,7 @@
 from collections import defaultdict
 from typing import Tuple
 
-from backend.models import Order, GroupOrder
+from src.backend.models import Order, GroupOrder
 
 def format_order(orders: list[Order]) -> Tuple[str, int]:
     grouped_order = defaultdict(lambda: 0)
