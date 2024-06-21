@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from telegram import Bot, Update
 import os
@@ -15,3 +15,6 @@ def telegram_webhook(request):
         update = Update.de_json(request.json, bot)
         applicationBuilder.process_update(update)
     return JsonResponse({"status": "ok"})
+
+def index(request):
+    return HttpResponse("¡Hola desde la aplicación Django en Vercel!")
