@@ -3,6 +3,8 @@
 import os
 import sys
 
+from django.core.handlers.asgi import ASGIHandler
+handler = ASGIHandler()
 
 def main():
     """Run administrative tasks."""
