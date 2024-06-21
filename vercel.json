@@ -7,12 +7,16 @@
       "config": {
         "distDir": "staticfiles"
       }
+    },
+    {
+      "src": "src/pedigroup/wsgi.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/manage.py"
+      "dest": "src/pedigroup/wsgi.py"
     }
   ]
 }
