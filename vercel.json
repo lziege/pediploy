@@ -11,8 +11,10 @@
     }
   ],
   "routes": [
-      { "handle": "filesystem" },
-      { "src": "/.*", "dest": "src/manage.py" }
+    {
+      "src": "/(.*)",
+      "dest": "src/manage.py"
+    }
   ],
   "env": {
     "TELEGRAM_BOT_TOKEN": "@telegram_bot_token"
