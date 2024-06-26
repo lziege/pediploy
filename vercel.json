@@ -23,7 +23,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "manage.py"
+      "dest": "/src/views.py"
     }
   ]
 }
