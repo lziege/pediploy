@@ -18,6 +18,14 @@
       "use": "@vercel/python"
     },
     {
+      "src": "src/urls.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "src/views.py",
+      "use": "@vercel/python"
+    },
+    {
       "src": "src/backend/management/commands/run_telegram_bot.py",
       "use": "@vercel/python"
     }
