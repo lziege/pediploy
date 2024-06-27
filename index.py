@@ -15,6 +15,10 @@ app = Flask(__name__)
 def home():
     return 'Bot is running'
 
+@app.route('/telegram-webhook/')
+def bot_page():
+    return 'Recibo peticiones del bot'
+
 def run_flask():
     app.run(host='0.0.0.0', port=5000)
 

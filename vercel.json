@@ -33,7 +33,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/wsgi.py"
+      "dest": "index.py"
     }
   ]
 }
