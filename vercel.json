@@ -2,6 +2,10 @@
   "version": 2,
   "builds": [
     {
+      "src": "index.py",
+      "use": "@vercel/python"
+    },
+    {
       "src": "manage.py",
       "use": "@vercel/python"
     },
@@ -11,6 +15,10 @@
     },
     {
       "src": "src/settings.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "src/backend/management/commands/run_telegram_bot.py",
       "use": "@vercel/python"
     }
   ],
@@ -23,7 +31,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/src/views.py"
+      "dest": "index.py"
     }
   ]
 }
