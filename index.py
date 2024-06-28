@@ -1,3 +1,4 @@
+import asyncio
 import os
 import django
 from threading import Thread
@@ -23,7 +24,7 @@ def home():
 def telegram_webhook():
     data = request.get_json()
     update = Update.de_json(data, application.bot)
-    application.update_queue.put(update)
+    asyncio.run(application.update_queue.put(update))
     return '', 200
 
 def run_flask():
