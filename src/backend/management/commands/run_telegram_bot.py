@@ -61,10 +61,6 @@ GROUP_SELECTION_FOR_RECORD = 0
 
 manager = GroupOrderManager()
 
-async def post_init(application: Application) -> None:
-    await application.bot.set_my_commands(ALL_COMMANDS)
-
-applicationBuilder = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).post_init(post_init).build()
 
 async def start_order(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.chat.type == Chat.PRIVATE:
@@ -619,8 +615,12 @@ async def show_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(HELP_MESSAGE)
 
 
+async def post_init(application: Application) -> None:
+    await application.bot.set_my_commands(ALL_COMMANDS)
+
+
 def start_bot():
-    global applicationBuilder
+    applicationBuilder = ApplicationBuilder().token(settings.TELEGRAM_BOT_TOKEN).post_init(post_init).build()
     applicationBuilder.add_handler(CommandHandler(START_ORDER_COMMAND.command, start_order))
     applicationBuilder.add_handler(CallbackQueryHandler(finish_order, pattern=r'^Finalizar pedido\s+\S+'))
     applicationBuilder.add_handler(CommandHandler(LOAD_CSV_COMMAND.command, start_csv_upload))
@@ -662,9 +662,4 @@ def start_bot():
     applicationBuilder.add_handler(individual_order_handler)
     applicationBuilder.add_handler(orders_record_handler)
 
-    applicationBuilder.run_webhook(
-        listen="0.0.0.0",
-        port=3000,
-        url_path=settings.TELEGRAM_BOT_TOKEN,
-        webhook_url=f"https://pediploy.vercel.app/telegram-webhook/{settings.TELEGRAM_BOT_TOKEN}"
-    )
+    return applicationBuilder
