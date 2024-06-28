@@ -15,6 +15,7 @@ from src.backend.management.commands.run_telegram_bot import start_bot
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 
 application = start_bot()
+application.run_polling()
 
 @app.route('/')
 def home():

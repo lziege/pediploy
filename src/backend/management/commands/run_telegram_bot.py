@@ -662,6 +662,4 @@ def start_bot():
     applicationBuilder.add_handler(individual_order_handler)
     applicationBuilder.add_handler(orders_record_handler)
 
-    applicationBuilder.run_polling()
-
     return applicationBuilder
