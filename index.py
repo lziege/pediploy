@@ -21,7 +21,7 @@ def home():
 def telegram_webhook():
     data = request.get_json()
     message = data.get('message')
-    return JsonResponse({"status": "ok"})
+    return '', 200
 
 def run_flask():
     app.run(host='0.0.0.0', port=5000)
