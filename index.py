@@ -23,8 +23,10 @@ def home():
 @app.route(f'/telegram-webhook/{TELEGRAM_BOT_TOKEN}', methods=['POST'])
 def telegram_webhook():
     data = request.get_json()
+    print("Data received from Telegram:", data)
     update = Update.de_json(data, application.bot)
     asyncio.run(application.update_queue.put(update))
+    print("Update added to queue:", update)
     return '', 200
 
 def run_flask():
