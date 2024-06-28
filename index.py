@@ -2,18 +2,14 @@ import os
 import django
 import asyncio
 from threading import Thread
-from flask import Flask
-from django.http import JsonResponse, HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from telegram import Bot, Update
+from flask import Flask, request
+from django.http import JsonResponse
+from telegram import Bot
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.settings')
 django.setup()
 
 from src.backend.management.commands.run_telegram_bot import start_bot, applicationBuilder
-
-TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
-bot = Bot(token=TELEGRAM_BOT_TOKEN)
 
 app = Flask(__name__)
 
@@ -21,15 +17,11 @@ app = Flask(__name__)
 def home():
     return 'Bot is running'
 
-@csrf_exempt
-def telegram_webhook(request):
-    if request.method == "POST":
-        update = Update.de_json(request.json, bot)
-        applicationBuilder.process_update(update)
+@app.route('/telegram-webhook/', methods=['POST'])
+def telegram_webhook():
+    data = request.get_json()
+    message = data.get('message')
     return JsonResponse({"status": "ok"})
-
-def index(request):
-    return HttpResponse("¡Hola desde la aplicación Django en Vercel!")
 
 def run_flask():
     app.run(host='0.0.0.0', port=5000)
