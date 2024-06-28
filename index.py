@@ -4,6 +4,7 @@ import asyncio
 from threading import Thread
 from flask import Flask, request
 from django.http import JsonResponse
+import requests
 from telegram import Bot
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.settings')
@@ -13,6 +14,18 @@ from src.backend.management.commands.run_telegram_bot import start_bot, applicat
 
 app = Flask(__name__)
 
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+TELEGRAM_API_URL = f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}'
+
+def send_message(chat_id, text):
+    url = f'{TELEGRAM_API_URL}/sendMessage'
+    payload = {
+        'chat_id': chat_id,
+        'text': text
+    }
+    response = requests.post(url, json=payload)
+    return response.json()
+
 @app.route('/')
 def home():
     return 'Bot is running'
@@ -20,7 +33,15 @@ def home():
 @app.route('/telegram-webhook/', methods=['POST'])
 def telegram_webhook():
     data = request.get_json()
-    message = data.get('message')
+    if 'message' in data:
+        message = data['message']
+        chat_id = message['chat']['id']
+        text = message.get('text', '')
+
+        if text:
+            response_text = f"Recibí tu mensaje: {text}"
+            send_message(chat_id, response_text)
+
     return '', 200
 
 def run_flask():
