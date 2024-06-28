@@ -662,4 +662,9 @@ def start_bot():
     applicationBuilder.add_handler(individual_order_handler)
     applicationBuilder.add_handler(orders_record_handler)
 
-    applicationBuilder.run_polling()
+    applicationBuilder.run_webhook(
+        listen="0.0.0.0",
+        port=3000,
+        url_path=settings.TELEGRAM_BOT_TOKEN,
+        webhook_url=f"https://pediploy.vercel.app/telegram-webhook/{settings.TELEGRAM_BOT_TOKEN}"
+    )
